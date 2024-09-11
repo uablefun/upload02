@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GLB File Upload</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 500px; margin: 0 auto; padding: 20px; }
+        h1 { color: #333; }
+        #uploadForm { margin-top: 20px; }
+        #fileInput { margin-bottom: 10px; }
+        #uploadButton { padding: 10px 20px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+        #uploadButton:hover { background-color: #45a049; }
+        #message { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>GLB File Upload</h1>
+    <form id="uploadForm">
+        <input type="file" id="fileInput" accept=".glb" required>
+        <button type="submit" id="uploadButton">Upload GLB File</button>
+    </form>
+    <div id="message"></div>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            var fileInput = document.getElementById('fileInput');
+            var file = fileInput.files[0];
+            var formData = new FormData();
+            
+            formData.append('glbFile', file);
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(result => {
+                document.getElementById('message').textContent = result;
+            })
+            .catch(error => {
+                document.getElementById('message').textContent = 'Error: ' + error;
+            });
+        });
+    </script>
+</body>
+</html>

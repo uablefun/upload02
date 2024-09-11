@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uploaded GLB Files</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Uploaded GLB Files</h1>
+    <ul id="fileList">
+        <!-- File list will be populated here -->
+    </ul>
+
+    <script>
+        async function fetchFileList() {
+            try {
+                const response = await fetch('/files');
+                const files = await response.json();
+                const fileList = document.getElementById('fileList');
+                fileList.innerHTML = files.map(file => 
+                    `<li><a href="/uploads/${file}" target="_blank">${file}</a></li>`
+                ).join('');
+            } catch (error) {
+                console.error('Error fetching file list:', error);
+            }
+        }
+
+        fetchFileList();
+    </script>
+</body>
+</html>
